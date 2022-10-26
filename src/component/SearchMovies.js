@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
+import MovieCard from "./MovieCard";
 
 
-export default function SearchMovies(props){
+export default function SearchMovies(){
 
     const [query, setQuery] = useState('')
     const [movies, setMovies] = useState([])
@@ -19,21 +20,6 @@ export default function SearchMovies(props){
         }
     }
 
-    console.log(movies[0])
-
-    const moviesHtml = movies.filter(movie => movie.poster_path).map(movie => (
-        <div className="card" key={movie.id}>
-        <img className="card--image"
-            src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`} alt={movie.title + 'poster'}/>
-        <div className="card--content">
-            <h3 className="card--title">{movie.title}</h3>
-            <p><small>RELEASE DATE: {movie.release_date}</small></p>
-            <p><small>RATING: {movie.vote_average}</small></p>
-            <p className="card--desc">{movie.overview}</p>
-        </div>
-        </div>
-    ))
-
     return (
         <>
             <form className="form" onSubmit={searchMovies}>
@@ -47,9 +33,13 @@ export default function SearchMovies(props){
                 />
                 <button className="button" type="submit">Search</button>
             </form>
-
             <div className="card-list">
-                {moviesHtml}
+                {movies.filter(movie => movie.poster_path).map(movie =>
+                    <MovieCard 
+                        movie={movie} 
+                        key={movie.id}
+                    />
+                )}
             </div>
         </>
     )
